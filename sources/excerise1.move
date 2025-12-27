@@ -1,0 +1,32 @@
+/*
+/// Module: excerise1
+module excerise1::excerise1;
+*/
+
+// For Move coding conventions, see
+// https://docs.sui.io/concepts/sui-move-concepts/conventions
+
+
+module hello_world::excerise1 {
+  use std::string;
+
+  /// A shared greeting
+  public struct Greeting has key {
+    id: UID,
+    text: string::String,
+  }
+ 
+  /// API call that creates a globally shared Greeting object initialized with "Hello world!"
+  public fun new(ctx: &mut TxContext) { 
+    let new_greeting = Greeting { 
+      id: object::new(ctx),
+      text: b"Hello world!".to_string()
+    };
+    transfer::share_object(new_greeting);
+  }
+
+  /// API call that updates text of Greeting object
+  public fun update_text(greeting: &mut Greeting, new_text: string::String) {
+    greeting.text = new_text;
+  }
+}
